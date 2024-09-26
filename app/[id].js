@@ -5,6 +5,7 @@ import {
   View,
   ActivityIndicator,
   ScrollView,
+  Image,
 } from "react-native";
 import { HomeIcon } from "../components/Icons";
 import { useLocalSearchParams } from "expo-router";
@@ -12,6 +13,7 @@ import { Screen } from "../components/Screen";
 import { Stack } from "expo-router";
 import { useEffect, useState } from "react";
 import { getGameDetails } from "../lib/metacritic";
+import { Score } from "../components/Score";
 
 export default function Detail() {
   const { id } = useLocalSearchParams();
@@ -28,7 +30,8 @@ export default function Detail() {
       <Stack.Screen
         options={{
           headerLeft: () => {},
-          headerTitle: "JUAN ESTEBAN PÉREZ AGUAS",
+          headerTitle: "Detalle",
+          // headerTitle: gameInfo.title ? gameInfo.title : "Detalle",
         }}
       />
       <View>
@@ -36,16 +39,27 @@ export default function Detail() {
           <ActivityIndicator size="large" color="red" />
         ) : (
           <ScrollView>
-            <Link asChild href="/">
+            {/* <Link asChild href="/">
               <Pressable>
                 {({ pressed }) => (
                   <HomeIcon style={{ opacity: pressed ? 0.5 : 1 }} />
                 )}
               </Pressable>
-            </Link>
-            <Text className="text-gray-400 font-bold mb-8 text-2xl">
-              Detalle del juego {id}
-            </Text>
+            </Link> */}
+            <View className="justify-center items-center text-center">
+              <Image
+                source={{ uri: gameInfo.img }}
+                className="mb-4 rounded"
+                style={{ width: 214, height: 294 }}
+              />
+              <Score score={gameInfo.score} maxScore={100} />
+              <Text className="text-gray-50 font-bold text-2xl">
+                {gameInfo.title}
+              </Text>
+              <Text className="text-gray-400 mt-4 text-left text-base">
+                {gameInfo.description}
+              </Text>
+            </View>
           </ScrollView>
         )}
       </View>
